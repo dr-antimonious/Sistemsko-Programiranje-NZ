@@ -147,12 +147,14 @@ BOOL ReadSlot()
             lstrlen((LPTSTR)achID) * sizeof(TCHAR) + cbMessage,
             (LPTSTR)achID);
 
-        if (strstr(lpszBuffer, computerName) == NULL)
+        if (strncmp(lpszBuffer, computerName, strlen(computerName)) == 0
+            && lpszBuffer[strlen(computerName)] == ':')
+            ignoredMessages++;
+        else
         {
             _tprintf(_T("%hs\n"), lpszBuffer);
             messagePrinted = TRUE;
         }
-        else ignoredMessages++;
 
         GlobalFree((HGLOBAL)lpszBuffer);
 
